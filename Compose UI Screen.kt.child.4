@@ -1,0 +1,37 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME} #end
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+
+class ${NAME}ViewModel : ViewModel() {
+    
+    private val _state = MutableStateFlow(${NAME}ViewState())
+    val state = _state
+        .onStart {
+            onStart()
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = ${NAME}ViewState()
+        )
+
+    private val _effect = MutableSharedFlow<${NAME}ViewEffect>()
+    val effect = _effect.asSharedFlow()
+        
+    fun onEvent(event: ${NAME}ViewEvent) { 
+        when(event) {
+            else -> TODO("Handle actions") 
+        }
+    }
+    
+    private suspend fun onStart() {
+        
+    }
+}
